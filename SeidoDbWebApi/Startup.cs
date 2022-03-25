@@ -38,10 +38,7 @@ namespace DbAppWebApi
             AppLog.Instance.LogDBConnection(connectionString);
 
             services.AddDbContext<SeidoDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddControllers()
-                //.AddXmlDataContractSerializerFormatters()
-                //.AddXmlSerializerFormatters()
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
@@ -66,16 +63,14 @@ namespace DbAppWebApi
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                
-                
+                app.UseDeveloperExceptionPage();                
             }
 
             //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
