@@ -36,7 +36,6 @@ namespace DbAppWebApi
         {
             //Add the DbContext to the services
             var connectionString = AppConfig.ConfigurationRoot.GetConnectionString("SQLServer_seidowebservice");
-            AppLog.Instance.LogDBConnection(connectionString);
 
             services.AddDbContext<SeidoDbContext>(options => options.UseSqlServer(connectionString));
             services.AddControllers();

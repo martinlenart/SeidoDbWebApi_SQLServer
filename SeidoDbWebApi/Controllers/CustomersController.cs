@@ -24,15 +24,21 @@ namespace DbAppWebApi.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Customer>))]
         public async Task<IEnumerable<Customer>> GetCustomers(string country)
         {
+            _logger.LogInformation("GetCustomers initiated");
             if (string.IsNullOrWhiteSpace(country))
             {
                 var cus = await _repo.ReadAllAsync();
+
+                _logger.LogInformation("GetCustomers returned {count} customers", cus.Count());
                 return cus;
             }
             else
             {
-                var list = await _repo.ReadAllAsync();
-                return list.Where(cust => cust.Country == country);
+                var cus = await _repo.ReadAllAsync();
+                cus = cus.Where(cust => cust.Country == country);
+
+                _logger.LogInformation("GetCustomers returned {count} customers in country {country}", cus.Count(), country);
+                return cus;
             }
         }
         
@@ -161,7 +167,8 @@ namespace DbAppWebApi.Controllers
         {
             _repo = repo;
             _logger = logger;   
-            AppLog.Instance.LogInformation("CustomersController started");
+
+            _logger.LogInformation("CustomersController started");
         }
     }
 }

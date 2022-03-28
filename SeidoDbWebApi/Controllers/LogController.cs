@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+using SeidoDbWebApi.Logger;
 
 namespace DbAppWebApi.Controllers
 {
@@ -8,14 +12,24 @@ namespace DbAppWebApi.Controllers
     [Route("[controller]")]
     public class LogController : ControllerBase
     {
-        public LogController() { }
+        private ILogger<LogController> _logger;
 
         //GET /Log
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<AppLogItem>))]
-        public IEnumerable<AppLogItem> Get()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<LogMessage>))]
+        public IEnumerable<LogMessage> Get([FromServices] ILoggerProvider myLogger)
         {
-           return AppLog.Instance.ToArray();
+            //Should have recieved my custom logger through DI
+            if (myLogger is InMemoryLoggerProvider cl)
+            {
+                return cl.Messages;
+            }
+            return null;
+        }
+        public LogController(ILogger<LogController> logger)
+        {
+            _logger = logger;
+            _logger.LogInformation("LogController started");
         }
     }
 }
