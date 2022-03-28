@@ -15,6 +15,7 @@ namespace DbAppWebApi.Controllers
     public class CustomersController : ControllerBase
     {
         private ICustomerRepository _repo;
+        private ILogger<CustomersController> _logger;
 
         //GET: api/customers
         //GET: api/customers/?country={country}
@@ -159,6 +160,7 @@ namespace DbAppWebApi.Controllers
         public CustomersController(ICustomerRepository repo, ILogger<CustomersController> logger)
         {
             _repo = repo;
+            _logger = logger;   
             AppLog.Instance.LogInformation("CustomersController started");
         }
     }

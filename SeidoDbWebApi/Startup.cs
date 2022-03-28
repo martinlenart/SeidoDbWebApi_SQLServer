@@ -18,6 +18,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 using DbCRUDReposLib;
 using DbContextLib;
+using SeidoDbWebApi.Logger;
 
 namespace DbAppWebApi
 {
@@ -47,6 +48,7 @@ namespace DbAppWebApi
 
 
             //Dependency Injection for the controller class constructors
+            services.AddSingleton<ILoggerProvider, InMemoryLoggerProvider>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
 
