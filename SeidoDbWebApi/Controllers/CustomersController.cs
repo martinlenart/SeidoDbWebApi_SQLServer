@@ -85,6 +85,7 @@ namespace DbAppWebApi.Controllers
             cust = await _repo.UpdateAsync(cust);
             if (cust != null)
             {
+                _logger.LogInformation("Updated customer {cusId}", custGuid);
                 //Send an empty body response to confirm
                 return new NoContentResult();
             }
@@ -115,6 +116,8 @@ namespace DbAppWebApi.Controllers
             cust = await _repo.DeleteAsync(custGuid);
             if (cust != null)
             {
+                _logger.LogInformation("Deleted customer {cusId}", custGuid);
+
                 //Send an empty body response to confirm
                 return new NoContentResult();
             }
