@@ -18,7 +18,7 @@ namespace DbAppWebApi.Controllers
         private ICustomerRepository _repo;
         private ILogger<LogController> _logger;
 
-        //GET /Log
+        //GET /id
         [HttpGet()]
         [ProducesResponseType(200, Type = typeof(string))]
         public async Task<DbInfo> Get([FromServices] ILoggerProvider myLogger)
