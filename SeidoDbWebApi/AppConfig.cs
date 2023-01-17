@@ -10,7 +10,7 @@ namespace DbAppWebApi
 {
     public sealed class AppConfig
     {
-        public const string ThisConnection = "SQLServer_seidowebservice";
+        public const string ThisConnection = "SQLServer_seidowebservice_docker";
         private static AppConfig _instance = null;
         private static readonly object instanceLock = new();
         private static IConfigurationRoot _configuration;

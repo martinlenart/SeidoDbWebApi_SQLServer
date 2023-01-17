@@ -16,14 +16,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DbContextLib">
-      <HintPath>..\..\..\..\LIA1 Feb 2022\DbCRUDE\SeidoDbCRUDE_SQLServer\publish\DbContextLib.dll</HintPath>
+      <HintPath>..\..\..\DbCRUDE\SeidoDbCRUDE_SQLServer\publish\DbContextLib.dll</HintPath>
     </Reference>
     <Reference Include="DbCRUDReposLib">
-      <HintPath>..\..\..\..\LIA1 Feb 2022\DbCRUDE\SeidoDbCRUDE_SQLServer\publish\DbCRUDReposLib.dll</HintPath>
+      <HintPath>..\..\..\DbCRUDE\SeidoDbCRUDE_SQLServer\publish\DbCRUDReposLib.dll</HintPath>
     </Reference>
     <Reference Include="DbModelsLib">
-      <HintPath>..\..\..\..\LIA1 Feb 2022\DbCRUDE\SeidoDbCRUDE_SQLServer\publish\DbModelsLib.dll</HintPath>
+      <HintPath>..\..\..\DbCRUDE\SeidoDbCRUDE_SQLServer\publish\DbModelsLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="DbContextLib" />
+    <None Remove="DbCRUDReposLib" />
+    <None Remove="DbModelsLib" />
+  </ItemGroup>
 </Project>
