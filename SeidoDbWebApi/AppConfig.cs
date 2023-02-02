@@ -52,7 +52,15 @@ namespace DbAppWebApi
         public static string CurrentDbConnection => ConfigurationRoot.GetValue<string>("CurrentDbConnection");
         public static string CurrentDbConnectionString => ConfigurationRoot.GetConnectionString(CurrentDbConnection);
 
-        public static bool apiKeyTryGet(string apiKey, out string info) => _apiKeys.TryGetValue(apiKey, out info);
+        public static bool UseApiKey => ConfigurationRoot.GetValue<string>("UseApiKey") != "Disabled";
 
+        public static bool apiKeyTryGet(string apiKey, out string info)
+        {
+            info = null;
+            if (string.IsNullOrWhiteSpace(apiKey))
+                return false;
+
+            return _apiKeys.TryGetValue(apiKey, out info);
+        }
     }
 }

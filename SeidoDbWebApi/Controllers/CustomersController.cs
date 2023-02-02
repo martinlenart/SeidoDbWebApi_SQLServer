@@ -22,15 +22,21 @@ namespace DbAppWebApi.Controllers
         //Below are good practice decorators to use for a GET request
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Customer>))]
-        public async Task<IEnumerable<Customer>> GetCustomers(string country)
+        public async Task<IActionResult> GetCustomers(string country, string apiKey)
         {
             _logger.LogInformation("GetCustomers initiated");
+            if (AppConfig.UseApiKey && !AppConfig.apiKeyTryGet(apiKey, out _))
+            {
+                _logger.LogWarning("Wrong apiKey used:", apiKey);
+                return BadRequest("apiKey error");
+            }
+
             if (string.IsNullOrWhiteSpace(country))
             {
                 var cus = await _repo.ReadAllAsync();
 
                 _logger.LogInformation("GetCustomers returned {count} customers", cus.Count());
-                return cus;
+                return Ok(cus);
             }
             else
             {
@@ -38,7 +44,7 @@ namespace DbAppWebApi.Controllers
                 cus = cus.Where(cust => cust.Country == country);
 
                 _logger.LogInformation("GetCustomers returned {count} customers in country {country}", cus.Count(), country);
-                return cus;
+                return Ok(cus);
             }
         }
         
@@ -47,8 +53,15 @@ namespace DbAppWebApi.Controllers
         [ProducesResponseType(200, Type = typeof(Customer))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCustomer(string custId)
+        public async Task<IActionResult> GetCustomer(string custId, string apiKey)
         {
+            _logger.LogInformation("GetCustomer initiated");
+            if (AppConfig.UseApiKey && !AppConfig.apiKeyTryGet(apiKey, out _))
+            {
+                _logger.LogWarning("Wrong apiKey used:", apiKey);
+                return BadRequest("apiKey error");
+            }
+
             if (!Guid.TryParse(custId, out Guid custGuid))
             {
                 return BadRequest("Guid format error");
@@ -71,8 +84,15 @@ namespace DbAppWebApi.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateCustomer(string custId, [FromBody] Customer cust)
+        public async Task<IActionResult> UpdateCustomer(string custId, [FromBody] Customer cust, string apiKey)
         {
+            _logger.LogInformation("UpdateCustomer initiated");
+            if (AppConfig.UseApiKey && !AppConfig.apiKeyTryGet(apiKey, out _))
+            {
+                _logger.LogWarning("Wrong apiKey used:", apiKey);
+                return BadRequest("apiKey error");
+            }
+
             if (!Guid.TryParse(custId, out Guid custGuid))
             {
                 return BadRequest("Guid format error");
@@ -100,8 +120,15 @@ namespace DbAppWebApi.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> DeleteCustomer(string custId)
+        public async Task<IActionResult> DeleteCustomer(string custId, string apiKey)
         {
+            _logger.LogInformation("DeleteCustomer initiated");
+            if (AppConfig.UseApiKey && !AppConfig.apiKeyTryGet(apiKey, out _))
+            {
+                _logger.LogWarning("Wrong apiKey used:", apiKey);
+                return BadRequest("apiKey error");
+            }
+
             if (!Guid.TryParse(custId, out Guid custGuid))
             {
                 return BadRequest("Guid format error");
@@ -133,8 +160,15 @@ namespace DbAppWebApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> CreateCustomer([FromBody] Customer cust)
+        public async Task<IActionResult> CreateCustomer([FromBody] Customer cust, string apiKey)
         {
+            _logger.LogInformation("CreateCustomer initiated");
+            if (AppConfig.UseApiKey && !AppConfig.apiKeyTryGet(apiKey, out _))
+            {
+                _logger.LogWarning("Wrong apiKey used:", apiKey);
+                return BadRequest("apiKey error");
+            }
+
             if (cust == null)
             {
                 return BadRequest("No Customer");               
